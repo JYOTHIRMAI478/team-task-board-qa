@@ -297,3 +297,9 @@ Archive isn't in the UI yet (it's planned for v1.1), but TTB-5 says every filter
 | TTB-8 Persistence | 26–27 | 2 | 0 | 0 |
 | TTB-9 Feedback | 28–30 | 1 | 1 | 1 |
 | **Total** | **30** | **14** | **13** | **3** |
+
+
+## Manual test notes
+
+My raw notes for all 30 test cases, one file per ticket, are in
+[docs/manual-test-notes](docs/manual-test-notes).
