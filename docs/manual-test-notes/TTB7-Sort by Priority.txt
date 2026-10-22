@@ -1,0 +1,34 @@
+Test 23: Sort High > Medium > Low
+Ticket: TTB-7
+Steps: Added TASK A (Low), TASK B (Medium), TASK C (High) in that order
+Expected: C, B, A
+Actual: C (High), A (Low), B (Medium). Low shows above Medium
+Result: FAIL - BUG
+Severity: High (most important work isn't ordered correctly)
+Screenshot: TTB7-test23-sort-order.png
+
+Test 24: Same priority keeps added order (stable sort)
+Ticket: TTB-7
+Steps: Added TASK D (High) after TASK C (High)
+Expected: C, D, B, A
+Actual: C, D, A, B. C and D kept their added order, but
+        Low still shows above Medium
+Result: PARTIAL - tie order PASS; overall order FAIL (same bug as Test 23)
+Screenshot: TTB7-test24-stable-sort.png
+
+Test 25: Order same after refresh
+Ticket: TTB-7
+Steps: Refreshed the page
+Expected: Same order as before refresh
+Actual: Same order after refresh (C, D, A, B)
+Result: PASS (order is consistent, though consistently wrong per Test 23)
+
+
+SUGGESTION:
+
+Within the same priority, tasks are ordered by when they were added,
+not by due date. Example: TASK D (High, due 10-22) shows below
+TASK C (High, due 10-23) because C was added first. This matches the
+ticket, but sorting by due date within the same priority could help
+users see the most urgent work first. Worth discussing with Product
+for a future release.

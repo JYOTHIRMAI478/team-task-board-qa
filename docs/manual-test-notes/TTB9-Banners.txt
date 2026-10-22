@@ -1,0 +1,29 @@
+Test 28: Failed create shows correct banner
+Ticket: TTB-9
+Setup: SIMULATE_FAILURE = true in src/api/fakeTaskApi.ts
+Steps: Typed "Fail test", clicked Add task
+Expected: Red error banner, task not added, input kept for retry
+Actual: Green "Task added." banner shown, but no task was added.
+        The title box was also cleared, so the user loses their text.
+Result: FAIL - BUG
+Severity: Critical (tells the user it saved when it didn't)
+Screenshot: TTB9-test28-failed-create.png
+
+Test 29: Failed edit shows correct banner
+Ticket: TTB-9
+Setup: SIMULATE_FAILURE = true
+Steps: Edit "TEST" -> changed title -> Save
+Expected: Red error banner, title unchanged, editor stays open to retry
+Actual: Red "Failed to update task." banner shown; title stayed "TEST".
+        But the editor closed and the typed change was lost.
+Result: Banner PASS; keeping input for retry FAIL (Low/Medium)
+Screenshot: TTB9-test29-failed-edit.png
+
+Test 30: Failed delete shows correct banner
+Ticket: TTB-9
+Setup: SIMULATE_FAILURE = true
+Steps: Clicked Delete on "TEST"
+Expected: Red error banner, task stays in the list
+Actual: Red "Failed to delete task." banner shown; "TEST" stayed
+Result: PASS
+Screenshot: TTB9-test30-failed-delete.png

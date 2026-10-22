@@ -1,0 +1,62 @@
+Test 17: Selected filter is highlighted
+Ticket: TTB-5
+Steps: Clicked All, Active, Completed in turn
+Expected: The selected filter button is visually highlighted
+Actual: The clicked button turned dark; the others stayed white
+Result: PASS
+
+Test 18: Archived tasks are hidden in every filter
+Ticket: TTB-5
+
+What I tested:
+The ticket says the data model already has an "archived" flag on
+each task. Archive isn't in the UI yet (it's planned for v1.1), but
+every filter (All, Active, and Completed) must already hide archived
+tasks, so they don't accidentally show up once that feature ships.
+
+Setup:
+There's no archive button in the app, so I couldn't create an
+archived task through the UI. Instead, I opened Chrome DevTools,
+went to the Console tab, and saved three test tasks directly into
+the app's localStorage:
+- "Normal task": not completed, not archived
+- "Archived active": not completed, archived
+- "Archived done": completed, archived
+Then I refreshed the page so the app loaded these tasks the same way
+it loads normal saved tasks.
+
+Steps:
+1. Refreshed the page after adding the test data.
+2. Clicked All and checked which tasks appeared.
+3. Clicked Active and checked which tasks appeared.
+4. Clicked Completed and checked which tasks appeared.
+
+Expected:
+- All: only "Normal task"
+- Active: only "Normal task"
+- Completed: "No tasks to show." The only completed task is
+  archived, so it should stay hidden.
+
+What I saw:
+All and Active worked correctly. Both showed only "Normal task" and
+hid the two archived tasks. But when I clicked Completed, "Archived
+done" showed up, ticked and crossed out, even though it's archived
+and should never appear.
+
+Result: FAIL - BUG
+Severity: Medium. Users can't reach this today because archive isn't
+in the UI yet, but as soon as archive ships in v1.1, archived tasks
+will leak into the Completed view. The ticket specifically calls this
+out as something to prevent now.
+
+Root cause (from the code):
+In src/logic/taskFiltering.ts, the All and Active branches use the
+isVisible() helper, which hides archived tasks. The Completed branch
+only checks whether the task is completed and skips isVisible(), so
+archived tasks slip through. The ticket's technical note says to use
+isVisible() consistently in all three branches.
+
+Suggested fix:
+Change the Completed branch to check isVisible(t) && t.completed.
+
+Screenshot: TTB5-test18-archived-visible.png

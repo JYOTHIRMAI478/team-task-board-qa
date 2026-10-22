@@ -1,0 +1,44 @@
+Test 11: Delete persists after refresh
+Ticket: TTB-3 
+Steps:
+  1. Tasks: "close test orginial", "MEAL PREP", "GYM"
+  2. Click Delete on "close test orginial"
+     -> it disappears (green "Task deleted." banner shown)
+  3. Refresh the page
+Expected: Deleted task stays gone after refresh
+Actual: "close test orginial" came back after refresh
+Result: FAIL - BUG
+Severity: Critical (user is told it's deleted, but it isn't)
+Screenshots: TTB3-test11-after-delete.png, TTB3-test11-after-refresh.png
+
+Test 12: Deleting one task doesn't change the others
+Ticket: TTB-3
+Steps:
+  1. Cleared storage, added "Meal Prep" (Medium, 10/22/2026),
+     "Gym" (Medium, no date), "Groceries" (Low, 10/30/2026)
+  2. Ticked Task C as complete
+  3. Click Delete on "Task B"
+Expected: Only Task B is removed. Task A and Task C keep the
+          same title, priority, due date, and completion state
+Actual: Only Task B was removed. Task A and Task C kept their
+        titles, priorities, due dates, and Task C stayed ticked
+Result: PASS
+Screenshots:TTB3-test12-after-delete.png
+
+Test 13: Deleting the last task shows the empty state
+Ticket: TTB-3 (also TTB-8 persistence)
+Steps:
+  1. Had 3 tasks in the list
+  2. Without refreshing, clicked Delete on the first task
+     -> it disappeared
+  3. Clicked Delete on the next task
+     -> a previously deleted task came back
+  4. Kept trying to delete the remaining tasks
+Expected: Each deleted task stays gone, and after the last
+          delete the list shows "No tasks to show."
+Actual: Only the first delete appeared to work. Every delete
+        after that brought back a previously deleted task, so
+        the list could never be emptied. Empty state not reachable.
+Result: FAIL - BUG (same root cause as Test 11)
+Severity: Critical
+Screenshot: TTB3-test13-deleted-task-reappears.png

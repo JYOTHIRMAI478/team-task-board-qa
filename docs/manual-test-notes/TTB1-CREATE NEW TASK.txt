@@ -1,0 +1,75 @@
+
+Test 1: Empty title
+Ticket: TTB-1
+Expected: Error "Title is required", no task added
+Actual: Error "Title is required" shown inline, no task added
+Result: PASS
+
+Test 2: Title with only spaces
+Ticket: TTB-1
+Steps:
+  1. Click in the "What needs doing?" box
+  2. Press the spacebar 3 times (no letters)
+  3. Leave priority Medium, no due date
+  4. Click Add task
+  5. Repeated once more to confirm
+Expected: Inline error "Title is required." and no task added
+Actual: A task with a blank title was added each time
+        (2 attempts = 2 blank tasks)
+Result: FAIL - BUG
+Severity: High
+Screenshot: TTB1-test2-spaces-title.png
+
+Test 3: Valid task
+Expected: Task added, form clears, priority resets to Medium, green banner
+Actual: Task added, form cleared, priority reset to Medium, green banner shown
+Result: PASS
+
+Test 4: Past due date
+Ticket: TTB-1 
+Steps:
+  1. Type "emails follow up" in the title box
+  2. Leave priority Medium
+  3. Pick yesterday's date (10/20/2026)
+  4. Click Add task
+Expected: Inline error (due date must be today or later), no task added
+Actual: Task added with past due date 2026-10-20, no error shown
+Result: FAIL - BUG
+Severity: High
+Screenshot: TTB1-test4-past-date.png
+
+Test 5: Today's date (boundary)
+Ticket: TTB-1
+Expected: Task added (today is allowed)
+Actual: Task added with due date 2026-10-21, no error
+Result: PASS
+
+
+OBSERVATIONS:
+
+I ran 5 tests on task creation. 3 passed and 2 failed.
+
+What worked:
+The empty title check works. When I clicked Add task with nothing
+typed, I got "Title is required." right under the form and nothing
+was added. Adding a normal task also worked fine. The task showed
+up, the form cleared, priority went back to Medium, and I saw the
+green banner. I also tried today's date to check the boundary, and
+it was accepted as expected.
+
+What didn't work:
+I typed only spaces as the title and clicked Add task. Instead of
+an error, it created a task with a blank title. I tried it twice
+and got two blank tasks. (Screenshot: TTB1-test2-spaces-title.png)
+
+I also picked yesterday's date (10/20) as the due date. The ticket
+says past dates should be rejected, but the task was added with no
+error. (Screenshot: TTB1-test4-past-date.png)
+
+Things I noticed along the way:
+- The priority order looked off. I saw High, then Low, then Medium.
+  I'll check this properly under TTB-7.
+- When I tried to delete tasks, they kept coming back. I'll look
+  into this under TTB-3.
+- Since Edit is supposed to use the same validation, I want to
+  check if these same bugs happen there too (TTB-2).

@@ -1,0 +1,37 @@
+Test 19: Partial (substring) match
+Ticket: TTB-6
+Steps: Typed "t" in the search box
+Expected: All tasks containing "t" show, filtering as I type
+Actual: Client call, daily stand up, Automation task, Client meet
+        all shown; list updated as I typed
+Result: PASS
+
+Test 20: Case-insensitive search
+Ticket: TTB-6
+Steps: Tasks "Client call", "Client meet", "Team Lunch" exist.
+       Searched "Client", "client", "CLIENT", "TEAM"
+Expected: Each search shows the matching tasks regardless of case
+Actual: "Client" -> both Client tasks shown
+        "client" -> "No tasks to show."
+        "CLIENT" -> "No tasks to show."
+        "TEAM"   -> "No tasks to show."
+Result: FAIL - BUG
+Severity: Medium (search only works if the case matches exactly)
+Screenshots: TTB6-test20-lowercase.png, TTB6-test20-uppercase.png
+
+Test 21: Clearing search restores list
+Ticket: TTB-6
+Steps: Searched "Client", then cleared the search box
+Expected: Full task list shows again
+Actual: Full task list showed again after clearing
+Result: PASS
+
+Test 22: Search combined with filters
+Ticket: TTB-6
+Steps: Ticked "Client call", clicked Active and searched "Client",
+       then clicked Completed
+Expected: Active shows only Client meet; Completed shows only Client call
+Actual: Active -> both Client call (ticked) and Client meet shown
+        Completed -> (fill in)
+Result: FAIL - caused by TTB-4 completion bug (not a separate search bug)
+Screenshot: TTB6-test22-active-search.png

@@ -1,0 +1,81 @@
+Test 6: Edit opens pre-filled
+Ticket: TTB-2
+Expected: Editor shows current title, priority, due date
+Actual: Title, High, and 10/21/2026 pre-filled correctly
+Result: PASS
+
+Test 7: Save an edit
+Ticket: TTB-2
+Steps: Edit -> changed title to "Meeting with Client(Bella)" -> Save
+Expected: New title shown, green banner, still there after refresh
+Actual: New title saved, green banner, still there after refresh
+Result: PASS
+
+Test 8: Cancel discards changes
+Ticket: TTB-2
+Expected: Editor closes, title unchanged
+Actual: Title stayed "Meeting with Client(Bella)"
+Result: PASS
+
+Test 9: Edit validation
+Ticket: TTB-2
+a) Empty title -> "Title is required." shown, not saved. PASS
+   (Observation: error text looks black here vs red on create form)
+b) Spaces-only title -> saved with blank title. FAIL
+c) Spaces + past date (10/19/2026) -> saved with blank title
+   and past date. FAIL
+Screenshots: TTB2-test9-b-edit-spaces.png, TTB2-test9-c-edit-past-date.png
+
+Test 10: Close vs Cancel
+Ticket: TTB-2 (AC: Cancel discards changes)
+Steps:
+  1. Task saved as "close test orginial"
+  2. Edit -> change title to "close test" (no Save)
+  3. Click Close (the toggled Edit button)
+  4. Click Edit again
+Expected: Editor shows saved title, like Cancel does
+Actual: Editor shows the unsaved draft "close test"
+Result: FAIL - BUG
+Severity: Low (confusing UX; if user clicks Save next,
+          they may save changes they meant to abandon)
+Screenshot: TTB2-test10-close-keeps-draft.png
+
+
+OBSERVTIONS:
+
+TTB-2: Edit an existing task
+
+I ran 5 tests on editing. 3 passed and 3 issues came up
+(Test 9 had both a pass and a fail).
+
+What worked:
+When I clicked Edit, the editor opened with the current title,
+priority, and due date already filled in. Saving a new title
+worked, and it was still there after I refreshed the page. Cancel
+also worked as expected. I changed the title, clicked Cancel, and
+the original title stayed. When I cleared the title completely and
+clicked Save, I got "Title is required." and nothing was saved.
+
+What didn't work:
+The same validation bugs from TTB-1 show up in Edit. I replaced
+the title with only spaces and clicked Save, and it saved a blank
+title. Then I tried spaces with a past date (10/19), and it saved
+both, a blank title and a past due date, with no error.
+(Screenshots: TTB2-test9-b-edit-spaces.png, TTB2-test9-c-edit-past-date.png)
+
+I also found an issue with the Close button. When the editor is
+open, the Edit button changes to Close. I changed the title to
+"close test" without saving, clicked Close, then opened Edit
+again. The editor still showed my unsaved "close test" instead of
+the saved title "close test orginial". Cancel clears the draft,
+but Close doesn't, so the two buttons behave differently. If
+someone clicks Save after that, they could save a change they
+meant to throw away. (Screenshot: TTB2-test10-close-keeps-draft.png)
+
+Things I noticed along the way:
+- The "Title is required." error in the edit row looks black,
+  while the same error on the create form is red. Small styling
+  inconsistency.
+- My first Close test looked like it passed. When I repeated the
+  steps carefully, the bug showed up. Worth noting the exact steps
+  matter here.

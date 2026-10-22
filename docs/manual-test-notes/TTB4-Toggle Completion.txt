@@ -1,0 +1,40 @@
+Test 14: Tick a task complete
+Ticket: TTB-4 (also TTB-9)
+Steps:
+  1. Tasks: "Potluck" (Low), "Women's Meet" (Medium)
+  2. Ticked the checkbox on "Women's Meet"
+Expected: Checkbox ticked, title struck through, other task
+          unchanged, green success banner shown
+Actual: Checkbox ticked, title struck through, Potluck unchanged.
+        No banner appeared at all.
+Result: PARTIAL FAIL
+  - Visual completion: PASS
+  - Success banner on toggle: FAIL (TTB-9)
+Severity: Medium
+
+Test 15: Completion survives a refresh
+Ticket: TTB-4 (also TTB-8 persistence)
+Steps:
+  1. Ticked "Women's Meet" -> showed ticked with strikethrough
+  2. Refreshed the page
+Expected: "Women's Meet" still ticked with strikethrough
+Actual: "Women's Meet" is unticked after refresh.
+        Completion state was lost.
+Result: FAIL - BUG
+Severity: Critical (completion is the most important state
+          in the app, per TTB-4)
+Screenshots: TTB4-test15-before-refresh.png, TTB4-test15-after-refresh.png
+
+Test 16: Completed task and filters
+Ticket: TTB-4 (also TTB-5)
+Steps:
+  1. Ticked "Women's Meet" (shows ticked with strikethrough)
+  2. Clicked Active
+  3. Clicked Completed
+Expected: Active hides Women's Meet; Completed shows it
+Actual: Active still shows Women's Meet (ticked);
+        Completed shows "No tasks to show."
+Result: FAIL - BUG
+Severity: Critical (Active/Completed filters are unusable)
+Screenshots: TTB4-test16-all.png, TTB4-test16-active-filter.png,
+             TTB4-test16-completed-filter.png

@@ -1,0 +1,13 @@
+Test 26: First load with no saved data
+Ticket: TTB-8
+Steps: Cleared localStorage, refreshed
+Expected: Empty list, "No tasks to show."
+Actual: Empty list, "No tasks to show."
+Result: PASS
+
+Test 27: Created task survives refresh
+Ticket: TTB-8
+Steps: Added "TEST", refreshed
+Expected: "TEST" still in the list
+Actual: "TEST" still in the list after refresh
+Result: PASS
